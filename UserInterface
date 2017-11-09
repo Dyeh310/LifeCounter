@@ -1,0 +1,78 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ui;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+/**
+ *
+ * @author Nick
+ */
+public class UserInterface {
+
+    private Player player;
+    private List<Player> players;
+    private Scanner reader;
+
+    public UserInterface() {
+        this.players = new ArrayList<>();
+        this.reader = new Scanner(System.in);
+    }
+
+    public void start() {
+        System.out.println("How many players?");
+        int numPlayers = Integer.parseInt(reader.nextLine());
+        System.out.println("How much health per player?");
+        int hpPlayers = Integer.parseInt(reader.nextLine());
+
+        for (int i = 1; i <= numPlayers; i++) {
+            System.out.println("Player " + i + " name?");
+            String name = reader.nextLine();
+            players.add(new Player(name, hpPlayers));
+        }
+        
+       
+        while (true) {
+            System.out.println("Current Player Health: ");
+               printAll();
+                System.out.println("Which player: ");
+                String which = reader.nextLine();
+            OUTER:
+            for (Player p : players) {
+                if (p.getName().equalsIgnoreCase(which)) {
+                    System.out.println(" 1 -- add health \n 2 -- subtract health"
+                            + "\n 3 -- back");
+                    int choice = Integer.parseInt(reader.nextLine());
+                    switch (choice) {
+                        case 1:
+                            System.out.println("How much (add)?");
+                            int addHealth = Integer.parseInt(reader.nextLine());
+                            p.addHealth(addHealth);
+                            break;
+                        case 2:
+                            System.out.println("How much (subtract)?");
+                            int subtractHealth = Integer.parseInt(reader.nextLine());
+                            p.subtractHealth(subtractHealth);
+                            break;
+                        case 3:
+                            break OUTER;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+
+    }
+    
+    public void printAll() {
+        for (Player p : players){
+            System.out.println(p);
+        }
+    }
+}
